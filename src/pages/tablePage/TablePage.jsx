@@ -27,9 +27,13 @@ const TablePage = () => {
         data={excelTable}
         colHeaders={["Pierwsza kolumna", "Druga kolumna", "Trzecia kolumna"]}
         rowHeaders={true}
-        width="600"
+        width="1000"
         height="300"
         dropdownMenu={true}
+        columns={[
+            {data: 'id'},
+            {data: 'name'}
+        ]}
       />
     </div>
   ) : null;
