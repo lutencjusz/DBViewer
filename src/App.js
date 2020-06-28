@@ -14,6 +14,7 @@ function App() {
       </div>
       <div className="body">
         <Suspense fallback={<div>loading...</div>}>
+          <div id='table'/>
           <TablePage/>
         </Suspense>
       </div>
