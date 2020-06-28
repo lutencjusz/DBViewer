@@ -30,6 +30,7 @@ class MyTable extends React.Component {
         fixedColumnsLeft: 1,
         columnSorting: true,
         selectionMode: 'single',
+        outsideClickDeselects: false,
       },
     };
   }
@@ -57,10 +58,8 @@ class MyTable extends React.Component {
   };
 
   addRowAfter = () => {
-    const ro = this.hot.getSelectedLast();
-    const r = this.hot.countRows();
-    console.log({ ro, r });
-    this.hot.alter("insert_row", r)
+    const ro = this.hot.getSelected();
+    this.hot.alter("insert_row", ro[0][0]+1)
   };
 
   render() {
