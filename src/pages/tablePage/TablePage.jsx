@@ -3,39 +3,62 @@ import useSWR from "swr";
 import API from "../../data/fetch";
 import "handsontable/dist/handsontable.full.css";
 import { HotTable } from "@handsontable/react";
+import Handsontable from "handsontable";
+import { Fragment } from "react";
 
-const key = "non-commercial-and-evaluation";
+const handleExport = (event) => {
+  console.log({ event });
+};
+
+class MyTable extends React.Component {
+  constructor(props) {
+    super(props);
+    const key = "non-commercial-and-evaluation";
+    this.state = {
+      settings: {
+        data: props.data,
+        licenseKey: key ,
+        colHeaders: ["ID", "Nazwa", "ID Category"],
+        rowHeaders: true,
+        width: "1000",
+        height: "300",
+        dropdownMenu: true,
+        filters: true,
+        columns: [
+          { data: "id", type: "numeric", with: 40 },
+          { data: "name", type: "text" },
+          { data: "categoryId", type: "text" },
+        ],
+        multiColumnSorting: { indicator: true },
+        exportFile: true,
+        fixedColumnsLeft: 1,
+      },
+    };
+  }
+  render() {
+    return (
+      <Fragment>
+        <HotTable id="hot-table" settings={this.state.settings} />
+        <button
+          id="export-csv"
+          onClick={(e) => handleExport(e)}
+          className="btn size-medium bg-blue text-white shadow hover-moveup"
+        >
+          Export to a .csv file
+        </button>
+      </Fragment>
+    );
+  }
+}
 
 const TablePage = () => {
   const { data: table } = useSWR("dictionary", API.table.getData);
   const excelTable = table ? Object.values(table) : [];
-  console.log({ excelTable });
-
-  //   return table
-  //     ? table.map((table) => (
-  //         <div key={table.id}>
-  //           {table.id}
-  //           {table.name}
-  //         </div>
-  //       ))
-  //     : null;
 
   return table ? (
-    <div id="hot-app">
-      <HotTable
-        key={key}
-        data={excelTable}
-        colHeaders={["Pierwsza kolumna", "Druga kolumna", "Trzecia kolumna"]}
-        rowHeaders={true}
-        width="1000"
-        height="300"
-        dropdownMenu={true}
-        columns={[
-            {data: 'id'},
-            {data: 'name'}
-        ]}
-      />
-    </div>
+    <Fragment>
+      <MyTable data={excelTable} />
+    </Fragment>
   ) : null;
 };
 
