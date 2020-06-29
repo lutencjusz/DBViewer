@@ -36,3 +36,27 @@
     transform: rotate(360deg);
   }
 }
+
+.body {
+  background-color: rgb(197, 197, 197);
+}
+
+.ht_master tr td {
+  background-color: rgb(197, 197, 197);
+}
+
+.wtBorder {
+  background-color: #F00!important;
+}
+
+.ht_clone_top_left_corner th {
+  background-color: #F00;
+}
+
+.ht_master tr:nth-of-type(even) > td {
+  background-color: rgb(173, 173, 173);
+}
+
+.ht_clone_top th {
+  background-color: #F00;
+}

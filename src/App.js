@@ -1,7 +1,7 @@
 import React, { Suspense, Fragment } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import TablePage from './pages';
 
 function App() {

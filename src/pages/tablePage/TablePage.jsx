@@ -4,7 +4,7 @@ import API from "../../data/fetch";
 import "handsontable/dist/handsontable.full.css";
 import Handsontable from "handsontable";
 import { Fragment } from "react";
-import Button from "../../components";
+import { NeuButton, NeuDiv, NeuTextInput } from "neumorphism-react";
 
 class MyTable extends React.Component {
   constructor(props) {
@@ -16,7 +16,7 @@ class MyTable extends React.Component {
         licenseKey: key,
         colHeaders: ["ID", "Nazwa", "ID Category"],
         rowHeaders: true,
-        width: "75%",
+        width: "600",
         height: "300",
         dropdownMenu: true,
         filters: true,
@@ -27,10 +27,10 @@ class MyTable extends React.Component {
         ],
         multiColumnSorting: { indicator: true },
         exportFile: true,
-        fixedColumnsLeft: 1,
         columnSorting: true,
-        selectionMode: 'single',
+        selectionMode: "single",
         outsideClickDeselects: false,
+        stretchH: "all",
       },
     };
   }
@@ -59,37 +59,63 @@ class MyTable extends React.Component {
 
   addRowAfter = () => {
     const ro = this.hot.getSelected();
-    this.hot.alter("insert_row", ro[0][0]+1)
+    this.hot.alter("insert_row", ro[0][0] + 1);
   };
 
   render() {
     return (
       <Fragment>
-        <button
+        <NeuButton
           onClick={(e) => this.handleExport(e)}
-          className="btn size-medium bg-blue text-white shadow hover-moveup"
+          color="#c5c5c5"
+          distance={3}
+          style={{ width: "100px", margin: "10px", fontSize: "12px" }}
         >
-          Export to a .csv file
-        </button>
-        <button
+          Export
+        </NeuButton>
+        <NeuButton
           onClick={(e) => this.updateValueInTable(1, 2, "sdsdsd")}
-          className="btn size-medium bg-green text-white shadow hover-moveup"
+          color="#c5c5c5"
+          distance={3}
+          style={{ width: "100px", margin: "10px", fontSize: "12px" }}
         >
           Update data
-        </button>
-        <button
+        </NeuButton>
+        <NeuButton
           onClick={() => this.saveData()}
-          className="btn size-medium bg-red text-white shadow hover-moveup"
+          color="#c5c5c5"
+          distance={3}
+          style={{ width: "100px", margin: "10px", fontSize: "12px" }}
         >
           Save data
-        </button>
-        <button
+        </NeuButton>
+        <NeuButton
           onClick={() => this.addRowAfter()}
-          className="btn size-medium bg-green text-white shadow hover-moveup"
+          color="#c5c5c5"
+          distance={3}
+          style={{ width: "100px", margin: "10px", fontSize: "12px" }}
         >
           Add data
-        </button>
-        <div id="hot-table"></div>
+        </NeuButton>
+        <NeuTextInput
+          placeholder="Type some text"
+          color="#c5c5c5"
+          width="100px"
+          height="40px"
+          distance={2}
+          onChange={(newValue) => console.log("newValue : ", newValue)}
+          fontSize={12}
+          fontColor="#000000"
+          style={{ width: "200px", margin: "10px" }}
+        />
+        <NeuDiv
+          color="#c5c5c5"
+          radius={10}
+          revert
+          style={{ width: "600px", marginLeft: "10px", padding: "10px" }}
+        >
+          <div id="hot-table"></div>
+        </NeuDiv>
       </Fragment>
     );
   }
