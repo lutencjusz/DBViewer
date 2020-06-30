@@ -14,23 +14,22 @@ class MyTable extends React.Component {
       settings: {
         data: props.data,
         licenseKey: key,
-        colHeaders: ["ID", "Nazwa", "ID Category"],
+        colHeaders: true,
         rowHeaders: true,
-        width: "600",
-        height: "300",
+        width: "1000",
+        height: "500",
         dropdownMenu: true,
         filters: true,
-        columns: [
-          { data: "id", type: "numeric", with: 40 },
-          { data: "name", type: "text" },
-          { data: "categoryId", type: "numeric" },
-        ],
-        multiColumnSorting: { indicator: true },
         exportFile: true,
         columnSorting: true,
         selectionMode: "single",
         outsideClickDeselects: false,
         stretchH: "all",
+        bindRowsWithHeaders: true,
+        manualColumnMove: true,
+        activeHeaderClassName: 'ht__active_highlight',
+        renderAllRows: true,
+        renderAllColumns: true,
       },
     };
   }
@@ -61,6 +60,41 @@ class MyTable extends React.Component {
     const ro = this.hot.getSelected();
     this.hot.alter("insert_row", ro[0][0] + 1);
   };
+
+  changeTable = async (newTable) => {
+    const tables = ['dictionary', 'categories']
+    const tabCol = [];
+    tabCol[tables[0]] = [
+      {data: "id", renderer: "numeric"},
+      {data: "description", renderer: "html", width:"100px"},
+      {data: "name",  renderer: "html"},
+      {data: "categoryId", renderer: "html"},
+    ]
+    tabCol[tables[1]] = [
+      {data: "descYes", renderer: "html", width:"100px"},
+      {data: "remember", renderer: "html", width:"100px"},
+      {data: "id",  renderer: "numeric"},
+      {data: "descNo", renderer: "html", width:"100px"},
+      {data: "image", renderer: 'html', width:"100px"},
+      {data: "name", renderer: "html", width:"100px"},
+    ]
+    console.log({newTable})
+    if (tables.includes(newTable)) {
+      const data = await API.table.getData(newTable);
+      console.log({data})
+      if (data) {
+        console.log(Object.keys(data[0]))
+        this.hot.updateSettings({
+          colHeaders: Object.keys(data[0]),
+          data: Object.values(data),
+          columns: tabCol[newTable]
+        })
+        this.hot.render()
+        // this.hot.loadData(data);
+      }
+    }
+  };
+
 
   render() {
     return (
@@ -103,7 +137,7 @@ class MyTable extends React.Component {
           width="100px"
           height="40px"
           distance={2}
-          onChange={(newValue) => console.log("newValue : ", newValue)}
+          onChange={(newValue) => this.changeTable(newValue)}
           fontSize={12}
           fontColor="#000000"
           style={{ width: "200px", margin: "10px" }}
@@ -112,7 +146,7 @@ class MyTable extends React.Component {
           color="#c5c5c5"
           radius={10}
           revert
-          style={{ width: "600px", marginLeft: "10px", padding: "10px" }}
+          style={{ width: "1000px", marginLeft: "10px", padding: "10px" }}
         >
           <div id="hot-table"></div>
         </NeuDiv>
@@ -124,7 +158,6 @@ class MyTable extends React.Component {
 const TablePage = () => {
   const { data: table } = useSWR("dictionary", API.table.getData);
   const excelTable = table ? Object.values(table) : [];
-
   return table ? (
     <Fragment>
       <MyTable data={excelTable} />
