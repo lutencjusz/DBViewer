@@ -4,7 +4,6 @@ import API from "../../data/fetch";
 import "handsontable/dist/handsontable.full.css";
 import Handsontable from "handsontable";
 import { Fragment } from "react";
-import { NeuButton, NeuDiv, NeuTextInput } from "neumorphism-react";
 
 class MyTable extends React.Component {
   constructor(props) {
@@ -16,8 +15,8 @@ class MyTable extends React.Component {
         licenseKey: key,
         colHeaders: true,
         rowHeaders: true,
-        width: "1000",
-        height: "500",
+        // width: "1000",
+        height: "700",
         dropdownMenu: true,
         filters: true,
         exportFile: true,
@@ -27,7 +26,7 @@ class MyTable extends React.Component {
         stretchH: "all",
         bindRowsWithHeaders: true,
         manualColumnMove: true,
-        activeHeaderClassName: 'ht__active_highlight',
+        activeHeaderClassName: "ht__active_highlight",
         renderAllRows: true,
         renderAllColumns: true,
       },
@@ -62,94 +61,84 @@ class MyTable extends React.Component {
   };
 
   changeTable = async (newTable) => {
-    const tables = ['dictionary', 'categories']
+    const tables = ["dictionary", "categories"];
     const tabCol = [];
     tabCol[tables[0]] = [
-      {data: "id", renderer: "numeric"},
-      {data: "description", renderer: "html", width:"100px"},
-      {data: "name",  renderer: "html"},
-      {data: "categoryId", renderer: "html"},
-    ]
+      { data: "id", renderer: "numeric" },
+      { data: "description", renderer: "html", width: "100px" },
+      { data: "name", renderer: "html" },
+      { data: "categoryId", renderer: "html" },
+    ];
     tabCol[tables[1]] = [
-      {data: "descYes", renderer: "html", width:"100px"},
-      {data: "remember", renderer: "html", width:"100px"},
-      {data: "id",  renderer: "numeric"},
-      {data: "descNo", renderer: "html", width:"100px"},
-      {data: "image", renderer: 'html', width:"100px"},
-      {data: "name", renderer: "html", width:"100px"},
-    ]
-    console.log({newTable})
+      { data: "descYes", renderer: "html", width: "100px" },
+      { data: "remember", renderer: "html", width: "100px" },
+      { data: "id", renderer: "numeric" },
+      { data: "descNo", renderer: "html", width: "100px" },
+      { data: "image", renderer: "html", width: "100px" },
+      { data: "name", renderer: "html", width: "100px" },
+    ];
+    console.log({ newTable });
     if (tables.includes(newTable)) {
       const data = await API.table.getData(newTable);
-      console.log({data})
+      console.log({ data });
       if (data) {
-        console.log(Object.keys(data[0]))
+        console.log(Object.keys(data[0]));
         this.hot.updateSettings({
           colHeaders: Object.keys(data[0]),
           data: Object.values(data),
-          columns: tabCol[newTable]
-        })
-        this.hot.render()
+          columns: tabCol[newTable],
+        });
+        this.hot.render();
         // this.hot.loadData(data);
       }
     }
   };
 
-
   render() {
     return (
       <Fragment>
-        <NeuButton
+        <button
+          className="btn btn-primary text-dark animate-up-2 mr-2 mb-2"
+          type="button"
           onClick={(e) => this.handleExport(e)}
-          color="#c5c5c5"
-          distance={3}
-          style={{ width: "100px", margin: "10px", fontSize: "12px" }}
         >
           Export
-        </NeuButton>
-        <NeuButton
+        </button>
+        <button
           onClick={(e) => this.updateValueInTable(1, 2, "sdsdsd")}
-          color="#c5c5c5"
-          distance={3}
-          style={{ width: "100px", margin: "10px", fontSize: "12px" }}
+          className="btn btn-primary text-secondary animate-up-2 mr-2 mb-2"
+          type="button"
         >
           Update data
-        </NeuButton>
-        <NeuButton
+        </button>
+        <button
           onClick={() => this.saveData()}
-          color="#c5c5c5"
-          distance={3}
-          style={{ width: "100px", margin: "10px", fontSize: "12px" }}
+          className="btn btn-primary text-info animate-up-2 mr-2 mb-2"
+          type="button"
         >
           Save data
-        </NeuButton>
-        <NeuButton
+        </button>
+        <button
           onClick={() => this.addRowAfter()}
-          color="#c5c5c5"
-          distance={3}
-          style={{ width: "100px", margin: "10px", fontSize: "12px" }}
+          className="btn btn-primary text-success animate-up-2 mr-2 mb-2"
+          type="button"
         >
           Add data
-        </NeuButton>
-        <NeuTextInput
-          placeholder="Type some text"
-          color="#c5c5c5"
-          width="100px"
-          height="40px"
-          distance={2}
-          onChange={(newValue) => this.changeTable(newValue)}
-          fontSize={12}
-          fontColor="#000000"
-          style={{ width: "200px", margin: "10px" }}
-        />
-        <NeuDiv
-          color="#c5c5c5"
-          radius={10}
-          revert
-          style={{ width: "1000px", marginLeft: "10px", padding: "10px" }}
+        </button>
+
+        <select
+          onChange={(e) => console.log(e)}
+          className="custom-select btn-primary my-4 mr-sm-2"
+          id="1"
+        >
+          <option value="directory">directory</option>
+          <option value="categories">categories</option>
+        </select>
+        <div
+          className='card bg-primary shadow-soft border-light px-5 py-4 text-center'
         >
           <div id="hot-table"></div>
-        </NeuDiv>
+        </div>
       </Fragment>
     );
   }
