@@ -27,7 +27,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h3 {
+h1,
+h3 {
   font-family: "Poppins", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -57,21 +58,32 @@ h1, h3 {
 }
 
 .ht_master tr td {
-  background-color: rgb(197, 197, 197);
+  background-color: #e6e7ee;
 }
 
 .wtBorder {
-  background-color: #f00 !important;
-}
-
-.ht_clone_top_left_corner th {
-  background-color: #f00;
-}
-
-.ht_master tr:nth-of-type(even) > td {
-  background-color: rgb(173, 173, 173);
+  background-color: blue !important;
 }
 
 .ht_clone_top th {
   background-color: #f00;
+}
+
+.handsontable table thead th {
+  background-color: #e6e7ee;
+}
+
+.handsontable table tbody th {
+  background-color: #e6e7ee;
+  border: none;
+}
+
+.handsontable table tbody tr td{
+  border-left: none;
+  border-right: none;
+}
+
+.handsontable .ht__highlight {
+  border-left: none;
+  border-right: none;
 }
