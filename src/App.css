@@ -65,10 +65,6 @@ h3 {
   background-color: blue !important;
 }
 
-.ht_clone_top th {
-  background-color: #f00;
-}
-
 .handsontable table thead th {
   background-color: #e6e7ee;
 }
@@ -81,6 +77,19 @@ h3 {
 .handsontable table tbody tr td{
   border-left: none;
   border-right: none;
+}
+
+.handsontable td:first-of-type, .handsontable td:first-of-type {
+  border-left: none;
+  border-right: none;
+}
+
+.handsontable table.htCore tbody tr th{
+  border-left: none;
+  border-right: none;
+  border-top-width: 1px solid #CCC;
+  border-bottom: 1px solid #CCC;
+
 }
 
 .handsontable .ht__highlight {

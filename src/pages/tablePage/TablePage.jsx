@@ -9,14 +9,17 @@ class MyTable extends React.Component {
   constructor(props) {
     super(props);
     const key = "non-commercial-and-evaluation";
+    this.tObj = [];
+    this.obj = new Map();
+    this.actualTable = 'dictionary'
     this.state = {
       settings: {
         data: props.data,
         licenseKey: key,
         colHeaders: true,
-        rowHeaders: true,
+        rowHeaders: false,
         // width: "1000",
-        height: "700",
+        height: "400",
         dropdownMenu: true,
         filters: true,
         exportFile: true,
@@ -50,9 +53,25 @@ class MyTable extends React.Component {
     this.hot.setDataAtCell(row, col, value);
   };
 
-  saveData = () => {
-    const res = JSON.stringify({ data: this.hot.getData() });
-    console.log({ res });
+  joinHeaderArray = (headers, data) => {
+    for (let j = 0; j < data.length; j++) {
+      this.obj={};
+      for (let i = 0; i < headers.length; i++) {
+        this.obj[headers[i]] = data[j][i];
+      }
+      this.tObj.push(this.obj);
+    }
+    return this.tObj;
+  };
+
+  saveData = async() => {
+    this.tObj = [];
+    this.obj = {};
+    const res = JSON.stringify({
+      data: this.joinHeaderArray(this.hot.getColHeader(), this.hot.getData()),
+    });
+    const data = await API.table.saveData(this.actualTable, res);
+    console.log({data})
   };
 
   addRowAfter = () => {
@@ -82,7 +101,7 @@ class MyTable extends React.Component {
       { data: "customOption", renderer: "html", width: "100px" },
       { data: "description", renderer: "numeric" },
       { data: "id", renderer: "html", width: "100px" },
-      { data: "name", renderer: "html", width: "100px" }
+      { data: "name", renderer: "html", width: "100px" },
     ];
     console.log({ newTable });
     if (tables.includes(newTable)) {
@@ -96,7 +115,7 @@ class MyTable extends React.Component {
           columns: tabCol[newTable],
         });
         this.hot.render();
-        // this.hot.loadData(data);
+        this.actualTable = newTable;
       }
     }
   };
@@ -143,9 +162,9 @@ class MyTable extends React.Component {
           <option value="candidates">candidates</option>
         </select>
         <div className="card bg-primary shadow-inset border-light p-3">
-        <div className='card bg-primary shadow-soft border-light px-5 py-4 text-center'>
-          <div id="hot-table"></div>
-        </div>
+          <div className="card bg-primary shadow-soft border-light px-5 py-4 text-center">
+            <div id="hot-table"></div>
+          </div>
         </div>
       </Fragment>
     );

@@ -8,12 +8,12 @@ function App() {
   return (
     <Fragment>
       <main>
-        <section className="section section bg-soft pb-5 overflow-hidden z-2">
+        <section className="section section bg-soft pb-5 ovrflow-hidden z-1">
           <div className="container z-2">
-            <div className="row justify-content-center text-center pt-6">
-              <div className="col-lg-9 col-xl-9">
-                <h1 className="display-2 mb-3">Przeglądarka do DB</h1>
-                <h3 className="display-4 mb-3">Możliwości z przeglądaniem</h3>
+            <div className="row justify-content-center text-center">
+              <div className="col-lg-9 col-xl-12">
+                <h1 className="display-2 mb-2">Przeglądarka DB</h1>
+                <h3 className="h5 mb-4">umożliwia przeglądanie i edycję tabel Segregatora</h3>
                 <Suspense fallback={<div>loading...</div>}>
                   <div id='table' />
                   <TablePage />
