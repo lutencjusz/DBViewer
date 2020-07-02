@@ -7,6 +7,18 @@ import TablePage from './pages';
 function App() {
   return (
     <Fragment>
+      <header className="header-global">
+        <nav id="navbar-main" aria-label="Primary navigation" className="navbar navbar-main navbar-expand-lg navbar-theme-primary headroom navbar-light headroom--not-bottom headroom--pinned headroom--top">
+          <div className="container position-relative">
+            <div className="navbar-collapse collapse">
+              <a href="mailto: admin@sopim.pl" className="btn btn-primary animate-up-2">Sopim</a>
+            </div>
+            <div className="nav nav-pills nav-fill flex-column flex-sm-row">
+              <a href="mailto: admin@sopim.pl" className="btn btn-primary animate-up-2">Segregator</a>
+            </div>
+          </div>
+        </nav>
+      </header>
       <main>
         <section className="section section bg-soft pb-5 ovrflow-hidden z-1">
           <div className="container z-2">
