@@ -5,6 +5,7 @@ import "handsontable/dist/handsontable.full.css";
 import Handsontable from "handsontable";
 import { Fragment } from "react";
 import { tables, tabCol } from "../../data/constants";
+import Papa from "papaparse";
 
 class MyTable extends React.Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class MyTable extends React.Component {
     this.actualTable = "dictionary";
     this.tables = tables;
     this.colSpec = tabCol;
+    this.fileReader = null;
     this.loadFileName = "Wybierz plik..."
     this.state = {
       settings: {
@@ -96,7 +98,7 @@ class MyTable extends React.Component {
       const data = await API.table.getData(newTable);
       // console.log({ data });
       if (data) {
-        // console.log(Object.keys(data[0]));
+        console.log(Object.values(data));
         this.hot.updateSettings({
           colHeaders: Object.keys(data[0]),
           data: Object.values(data),
@@ -108,9 +110,30 @@ class MyTable extends React.Component {
     }
   };
 
-  changedLoadFile = (fileName) => {
-    this.loadFileName = fileName.split('\\').slice(-1)[0]; // obcina przedrostek
-    console.log(this.loadFileName);
+  
+
+  handleFileReader = (e) => {
+    const content = this.fileReader.result;
+    const res= Papa.parse(content);
+    const headers = tabCol[this.actualTable].map(m=>m.data)
+    console.log({headers})
+    const resHotData = this.joinHeaderArray(headers, res.data);
+    console.log({resHotData});
+    this.hot.updateSettings({
+      colHeaders: headers,
+      data: resHotData,
+      columns: this.colSpec[this.actualTable],
+    });
+    this.hot.render();
+  }
+
+  
+
+  changedLoadFile = (file) => {
+    this.fileReader = null;
+    this.fileReader = new FileReader();
+    this.fileReader.onloadend = this.handleFileReader;
+    this.fileReader.readAsText(file);
   }
 
   render() {
@@ -182,14 +205,15 @@ class MyTable extends React.Component {
             </select>
           </div>
           <div className="col-3">
-            <div className="custom-file my-2" lang="es">
+            <div className="my-2 upload-expense" lang="es">
               <input
                 id="customFile"
                 type="file"
                 className="custom-file-input"
                 data-browse="Wybierz"
                 data-browse-on-zone-click="true"
-                onChange={(e)=>this.changedLoadFile(e.target.value)}
+                accept=".csv"
+                onChange={(e)=>this.changedLoadFile(e.target.files[0])}
               />
               <label className="custom-file-label" htmlFor="customFile">{this.loadFileName}</label>
             </div>
