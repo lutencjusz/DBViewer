@@ -130,7 +130,6 @@ class MyTable extends React.Component {
   
 
   changedLoadFile = (file) => {
-    this.fileReader = null;
     this.fileReader = new FileReader();
     this.fileReader.onloadend = this.handleFileReader;
     this.fileReader.readAsText(file);
@@ -179,11 +178,11 @@ class MyTable extends React.Component {
             <ion-icon name="stop-circle-outline"></ion-icon>
           </button>
         </div>
-        <div className="row">
+        <div className="row my-2">
           <div className="col-5">
             <select
               onChange={(e) => this.changeTable(e.target.value)}
-              className="custom-select btn-primary my-2 mr-sm-2"
+              className="custom-select btn-primary mr-sm-2"
               id="1"
             >
               {this.tables.map((table) => (
@@ -196,7 +195,7 @@ class MyTable extends React.Component {
           <div className="col-4">
             <select
               onChange={(e) => this.changeTable(e.target.value)}
-              className="custom-select btn-primary my-2 mr-sm-2"
+              className="custom-select btn-primary mr-sm-2"
               id="1"
             >
               <option value="dictionary">dictionary</option>
@@ -205,7 +204,7 @@ class MyTable extends React.Component {
             </select>
           </div>
           <div className="col-3">
-            <div className="my-2 upload-expense" lang="es">
+            <div className="upload-expense" lang="es">
               <input
                 id="customFile"
                 type="file"
